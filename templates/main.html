@@ -1,0 +1,10 @@
+{% block content %}
+    <p>
+        {% if current_user.is_authenticated %}
+            Hi {{ user.username }}!
+        {% else %}
+            It`s Anonymous user
+        {% endif %}
+        You have visited this site first time
+    </p>
+{% endblock %}
