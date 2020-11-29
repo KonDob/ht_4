@@ -1,10 +1,15 @@
 {% block content %}
     <p>
         {% if current_user.is_authenticated %}
-            Hi {{ user.username }}!
+            It`s {{ current_user.username }} user
         {% else %}
             It`s Anonymous user
         {% endif %}
-        You have visited this site first time
+
+        {% if visited >= 0 %}
+        <br>You have opened this page {{ visited }} times
+        {% else %}
+        <br>You have visited this site first time
+        {% endif %}
     </p>
 {% endblock %}

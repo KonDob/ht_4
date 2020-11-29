@@ -3,15 +3,15 @@
 {% block content %}
     <p>
         Welcome on Login page
-    </p>
     {% if current_user.is_authenticated %}
-    You are logged in as {{ session.username }}!
+    <br>You have logged as <em>{{ current_user.username }}</em>
+    </p>
     {% else %}
-    <form action="/login" method="POST">
-        <input type="text" placeholder='Your Email' name="email">
-        <input type="text" placeholder='Your password' name="password">
-        <input type="submit" value='Login'>
-    </form>
+        <form action="/login" method="POST">
+            <input type="text" placeholder='Your Email' name="email">
+            <input type="submit" value='Login'>
+        </form>
+
     {% endif %}
 
     

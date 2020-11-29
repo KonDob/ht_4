@@ -4,3 +4,4 @@ body { max-width: 960px; margin: 0 auto; background: rgb(252, 228, 150); border-
 h1 { font-family: serif; color: #377ba8; margin: 1rem 0; }
 a { color: #377ba8; }
 p { padding: 2rem;}
+form { padding-left: 2em; padding-bottom: 20px;}

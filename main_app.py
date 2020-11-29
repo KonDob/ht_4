@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, \
                         logout_user, current_user
@@ -23,8 +23,12 @@ class User(UserMixin, db.Model):
 
 
 @login_manager.user_loader
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+def load_user(user_id):
+    return User.query.get(user_id)
+
+
+@app.route('/login')
+def login_view():
     """
         Function for logging in users
         For GET requests, display the login form. 
@@ -33,31 +37,36 @@ def login():
     Returns:
 
     """
-    if request.method == 'GET':
-        return render_template('login.html')
-    else:
-        email = request.form['email']
-        user = User.query.filter_by(email=email).first()
-        if user:
-            print(user.username)
-            login_user(user)
-            return "You are logged in as {}".format(user.username)
+    return render_template('login.html')
 
-        return 'Wrong password or login'
+
+@app.route('/login', methods=['POST'])
+def login_post():
+    email = request.form['email']
+    user = User.query.filter_by(email=email).first()
+    if user:
+        login_user(user)
+        return "You are logged in as {}".format(user.username)
+
+    return render_template('login.html')
 
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return 'asdf'
+    return 'Your session is clear'
 
 
-@login_manager.user_loader
 @app.route('/')
 def index():
-    # username = current_user.username()
-    return render_template('main.html')
+    visited = 0
+    if request.cookies.get('visited'):
+        visited = int(request.cookies.get('visited'))
+
+    response = make_response(render_template('main.html', visited=visited))
+    response.set_cookie('visited', str(visited + 1))
+    return response
 
 
 if __name__ == '__main__':
