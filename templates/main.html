@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+
 {% block content %}
     <p>
         {% if current_user.is_authenticated %}
@@ -6,7 +8,7 @@
             It`s Anonymous user
         {% endif %}
 
-        {% if visited >= 0 %}
+        {% if visited > 0 %}
         <br>You have opened this page {{ visited }} times
         {% else %}
         <br>You have visited this site first time
